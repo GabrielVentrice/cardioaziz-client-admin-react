@@ -20,8 +20,18 @@ export const Th = styled.th`
 `
 
 export const Tbody = styled.tbody`
-  box-shadow: 0px 1px 3px rgb(113, 128, 150, 0.22);
+  box-shadow: 2px 4px 6px rgba(113, 128, 150, 0.16);
+  background: white;
+  transition: all 0.2s ease-out;
   border-radius: 4px;
+
+  &.fade-out {
+    box-shadow: 0 3px 6px rgba(113, 128, 150, 0),
+      0 3px 6px rgba(113, 128, 150, 0);
+    tr {
+      opacity: 0;
+    }
+  }
 
   &:hover {
     background: #9c302e;
@@ -33,6 +43,7 @@ export const Tbody = styled.tbody`
   tr {
     transition: all 0.2s ease-out;
     background: white;
+    border-bottom: 1px solid ${theme.colors.gray[200]};
 
     &:first-child {
       td:first-child {
@@ -57,9 +68,10 @@ export const Tbody = styled.tbody`
     &:hover {
       transform: translate(16px);
       box-shadow: -3px 0px 5px rgba(156, 48, 46, 0.22);
+
       td {
         cursor: pointer;
-        color: #9c302e !important;
+        color: ${theme.colors.gray[800]} !important;
       }
     }
   }
@@ -74,4 +86,10 @@ export const Td = styled.td`
     color: ${theme.colors.gray[700]};
     text-transform: capitalize;
   }
+`
+
+export const Link = styled.a`
+  background: red;
+  width: 100px;
+  height: 100px;
 `

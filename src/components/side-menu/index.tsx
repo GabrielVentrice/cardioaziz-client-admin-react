@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react'
+import React from 'react'
 import {
   Heading,
   Avatar,
@@ -7,18 +7,12 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerBody,
-  DrawerHeader,
-  Button
+  DrawerHeader
 } from '@chakra-ui/core'
 import { useAuth } from '../../hooks/AuthContext'
 
 import ButtonMenu from '../button-menu'
 import AdminMenu from './admin-menu'
-
-const variants = {
-  open: { opacity: 1, x: 0, width: 'auto' },
-  closed: { opacity: 0, x: -224, width: 0 }
-}
 
 interface MenuProps {
   isOpen: boolean
@@ -31,16 +25,18 @@ interface MenuProps {
 const SideMenu: React.FC<MenuProps> = ({ isOpen, onClose }) => {
   const { user, signOut } = useAuth()
 
+  console.log(user)
+
   return (
     <>
-      <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
+      <Drawer placement="left" onClose={onClose} isOpen={isOpen} size="xs">
         <DrawerOverlay />
         <DrawerContent>
           <DrawerHeader borderBottomWidth="1px">
             <Avatar size="lg"></Avatar>
 
             <Heading as="h6" size="xs">
-              teste
+              {user.username}
             </Heading>
           </DrawerHeader>
           <DrawerBody>
@@ -53,7 +49,7 @@ const SideMenu: React.FC<MenuProps> = ({ isOpen, onClose }) => {
             >
               <AdminMenu></AdminMenu>
 
-              <ButtonMenu onClick={signOut} icon="arrow-back">
+              <ButtonMenu onClick={signOut} icon="logOut">
                 Logout
               </ButtonMenu>
             </Flex>

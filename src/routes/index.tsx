@@ -1,17 +1,22 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch } from 'react-router-dom'
 
 import PrivateRoute from '../hooks/PrivateRoute'
 import AuthRoute from '../hooks/AuthRoute'
 
-import Dashboard from '../pages/dashboard'
+// Admin
+import Dashboard from '../pages/admin/dashboard'
+import AdminLogin from '../pages/admin/admin-login'
+import Patient from '../pages/admin/patient'
+
 import Login from '../pages/login'
-import AdminLogin from '../pages/admin-login'
 
 const Routes: React.FC = () => {
   return (
     <Switch>
       <PrivateRoute path="/" exact component={Dashboard}></PrivateRoute>
+
+      <PrivateRoute path="/paciente" exact component={Patient}></PrivateRoute>
 
       <AuthRoute path="/login" component={Login}></AuthRoute>
 

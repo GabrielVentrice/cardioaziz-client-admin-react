@@ -1,9 +1,11 @@
 import { theme, DefaultTheme } from '@chakra-ui/core'
+import { customIcons } from './custom-icons'
 
 const customTheme: DefaultTheme = {
   ...theme,
   icons: {
-    ...theme.icons
+    ...theme.icons,
+    ...customIcons
   },
   fonts: {
     body: 'Helvetica, sans-serif',
@@ -29,9 +31,6 @@ const customTheme: DefaultTheme = {
       ...theme.colors.red,
       500: '#7d2524',
       900: '#9c302e'
-    },
-    gray: {
-      ...theme.colors.gray
     }
   }
 }

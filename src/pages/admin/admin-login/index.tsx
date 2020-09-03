@@ -10,15 +10,15 @@ import {
 } from '@chakra-ui/core'
 import { useForm } from 'react-hook-form'
 
-import { useAuth } from '../../hooks/AuthContext'
+import { useAuth } from '../../../hooks/AuthContext'
 
-import Input from '../../components/input/'
-import PasswordInput from '../../components/password-input/'
-import Button from '../../components/button'
+import Input from '../../../components/input/'
+import PasswordInput from '../../../components/password-input/'
+import Button from '../../../components/button'
 
-import Logo from '../../assets/logo.png'
+import Logo from '../../../assets/logo.png'
 
-import { role } from '../../utils/constants'
+import { role } from '../../../utils/constants'
 
 interface Inputs {
   email: string

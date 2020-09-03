@@ -16,6 +16,7 @@ interface InputProps {
   size: IInput['size']
   rightElement?: HTMLProps<HTMLButtonElement>
   inputRef?: any
+  id: string
 }
 
 const Input: React.FC<InputProps> = ({
@@ -25,6 +26,8 @@ const Input: React.FC<InputProps> = ({
   rightElement,
   size,
   inputRef,
+  id,
+  width,
   ...rest
 }) => {
   const [iconColor, setIconColor] = React.useState('gray.400')
@@ -40,12 +43,13 @@ const Input: React.FC<InputProps> = ({
         type={type}
         placeholder={placeholder}
         backgroundColor="white"
-        _placeholder={{ color: 'gray.500', fontSize: 'md' }}
+        _placeholder={{ color: 'gray.400', fontSize: 'md' }}
         focusBorderColor="red.900"
         onFocus={() => setIconColor('red.900')}
         onBlur={() => setIconColor('gray.400')}
         _hover={{ borderColor: 'gray.400' }}
         ref={inputRef}
+        width={width ? width : ['200px', '200px', '400px', '400px']}
       />
 
       {rightElement && <InputRightElement>{rightElement}</InputRightElement>}

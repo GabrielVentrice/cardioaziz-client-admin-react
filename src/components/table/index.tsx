@@ -1,16 +1,14 @@
 import React from 'react'
-import { useTable, Column, ColumnInterface } from 'react-table'
+import { useTable } from 'react-table'
 
-import Card from '../card'
-
-import { Table as CustomTable, Tr, Th, Tbody, Thead, Td } from './styles'
+import { Table as CustomTable, Tr, Th, Tbody, Thead, Td, Link } from './styles'
 
 interface IColumn {
   Header: string
   accessor: string
 }
 
-const Table: React.FC = ({ data, columns }) => {
+const Table: React.FC = ({ data, columns, isLoading, trClick }) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -31,7 +29,7 @@ const Table: React.FC = ({ data, columns }) => {
         ))}
       </Thead>
 
-      <Tbody {...getTableBodyProps()}>
+      <Tbody {...getTableBodyProps()} className={`${isLoading && 'fade-out'}`}>
         {rows.map(row => {
           prepareRow(row)
 

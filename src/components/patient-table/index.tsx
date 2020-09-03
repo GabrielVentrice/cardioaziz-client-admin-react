@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useState } from 'react'
 import Table from '../table'
 import api from '../../services/api'
 import moment from 'moment'
+import { useHistory } from 'react-router-dom'
 
 const PatientTable: React.FC = () => {
   const [rows, setRows] = useState([])
@@ -10,7 +11,7 @@ const PatientTable: React.FC = () => {
     () => [
       {
         Header: 'Nome',
-        accessor: 'col1' // accessor is the "key" in the data
+        accessor: 'col1'
       },
       {
         Header: 'Idade',
@@ -35,7 +36,7 @@ const PatientTable: React.FC = () => {
   function dataToColumns(docs) {
     let rows = []
 
-    docs.map(patient => {
+    docs.forEach(patient => {
       rows = [
         ...rows,
         {
@@ -59,7 +60,13 @@ const PatientTable: React.FC = () => {
     })
   }, [])
 
-  return <Table data={rows} columns={columns}></Table>
+  const history = useHistory()
+
+  function trClick() {
+    history.push('/paciente')
+  }
+
+  return <Table trClick={() => trClick} data={rows} columns={columns}></Table>
 }
 
 export default PatientTable

@@ -1,5 +1,4 @@
-import React, { useLayoutEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 
 import {
@@ -36,7 +35,7 @@ const Login: React.FC = () => {
     signIn(data, role.PATIENT)
   }
 
-  const { signIn, user } = useAuth()
+  const { signIn } = useAuth()
 
   return (
     <Grid

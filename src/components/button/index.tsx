@@ -1,4 +1,4 @@
-import React, { Children } from 'react'
+import React from 'react'
 import { Button as ChackraButton } from '@chakra-ui/core'
 
 interface ButtonProps {
