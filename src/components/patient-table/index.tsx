@@ -1,35 +1,29 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useState, useCallback } from 'react'
 import Table from '../table'
-import api from '../../services/api'
 import moment from 'moment'
 import { useHistory } from 'react-router-dom'
+import ReactPaginate from 'react-paginate'
+
+import { Flex } from './styles'
+
+import { Flex as ChakraFlex } from '@chakra-ui/core'
+
+import * as requests from '../../services/requests'
 
 const PatientTable: React.FC = () => {
   const [rows, setRows] = useState([])
 
+  const [pagination, setPagination] = useState({
+    total: 0,
+    limit: 0,
+    page: 0,
+    pages: 0
+  })
+
+  const [isLoading, setIsLoading] = useState(false)
+
   const columns = React.useMemo(
-    () => [
-      {
-        Header: 'Nome',
-        accessor: 'col1'
-      },
-      {
-        Header: 'Idade',
-        accessor: 'col2'
-      },
-      {
-        Header: 'Email',
-        accessor: 'col3'
-      },
-      {
-        Header: 'CPF',
-        accessor: 'col4'
-      },
-      {
-        Header: 'RG',
-        accessor: 'col5'
-      }
-    ],
+    () => ['Nome', 'Idade', 'Email', 'CPF', 'RG'],
     []
   )
 
@@ -40,25 +34,46 @@ const PatientTable: React.FC = () => {
       rows = [
         ...rows,
         {
-          col1: patient.nome.toLowerCase(),
-          col2: moment().diff(patient.nascimento, 'years'),
-          col3: patient.email,
-          col4: patient.cpf,
-          col5: patient.rg
+          id: patient._id,
+          info: [
+            patient.nome.toLowerCase(),
+            moment().diff(patient.nascimento, 'years'),
+            patient.email,
+            patient.cpf,
+            patient.rg
+          ]
         }
       ]
     })
 
     setRows(rows)
+    setIsLoading(false)
   }
 
-  useLayoutEffect(() => {
-    api.get('/pacientes').then(response => {
-      console.log(response.data.docs)
+  const getPatients = useCallback((page: number) => {
+    requests.patient
+      .get(page)
+      .then(response => {
+        const { total, limit, page, pages, docs } = response.data
 
-      dataToColumns(response.data.docs)
-    })
+        setPagination({ total, limit, page, pages })
+
+        dataToColumns(docs)
+      })
+      .catch(err => {})
   }, [])
+
+  useLayoutEffect(() => {
+    getPatients(0)
+  }, [getPatients])
+
+  const paginationClick = ({ selected }) => {
+    setIsLoading(true)
+
+    getPatients(selected)
+
+    setPagination({ ...pagination, page: selected })
+  }
 
   const history = useHistory()
 
@@ -66,7 +81,33 @@ const PatientTable: React.FC = () => {
     history.push('/paciente')
   }
 
-  return <Table trClick={() => trClick} data={rows} columns={columns}></Table>
+  return (
+    <Flex flexDir="column" width="100%">
+      <Table
+        trClick={trClick}
+        data={rows}
+        columns={columns}
+        redirectLink={'/paciente'}
+        isLoading={isLoading}
+      ></Table>
+
+      <ChakraFlex mt={4} justifyContent="flex-end">
+        <ReactPaginate
+          previousLabel={'<'}
+          nextLabel={'>'}
+          breakLabel={'.'}
+          breakClassName={'break-me'}
+          pageCount={pagination.pages}
+          marginPagesDisplayed={0}
+          pageRangeDisplayed={2}
+          onPageChange={paginationClick}
+          containerClassName={'pagination'}
+          subContainerClassName={'pages pagination'}
+          activeClassName={'active'}
+        />
+      </ChakraFlex>
+    </Flex>
+  )
 }
 
 export default PatientTable

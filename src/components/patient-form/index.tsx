@@ -21,38 +21,43 @@ export interface IPatientInput {
 }
 
 const PatientForm: React.FC = ({ isOpen, onClose, toClose }) => {
-  const { register, handleSubmit, errors, formState } = useForm<IPatientInput>()
+  const { register, handleSubmit, errors } = useForm<IPatientInput>()
   const toast = useToast()
 
-  const onSubmit = React.useCallback((formData: IPatientInput) => {
-    requests.patient
-      .post(formData)
-      .then(response => {
-        console.log('Resposta', response)
-        toast({
-          title: 'Sucesso',
-          description: 'Paciente criado',
-          status: 'success',
-          duration: 3000,
-          isClosable: true
-        })
-      })
-      .catch(({ response }) => {
-        let description: string = 'Algo deu errado'
+  const onSubmit = React.useCallback(
+    (formData: IPatientInput) => {
+      requests.patient
+        .post(formData)
 
-        if (response.status === 409) {
-          description = 'Email já cadastrado'
-        }
+        .then(response => {
+          console.log('Resposta', response)
 
-        toast({
-          title: 'Erro',
-          description,
-          status: 'error',
-          duration: 3000,
-          isClosable: true
+          toast({
+            title: 'Sucesso',
+            description: 'Paciente criado',
+            status: 'success',
+            duration: 3000,
+            isClosable: true
+          })
         })
-      })
-  }, [])
+        .catch(({ response }) => {
+          let description: string = 'Algo deu errado'
+
+          if (response.status === 409) {
+            description = 'Email já cadastrado'
+          }
+
+          toast({
+            title: 'Erro',
+            description,
+            status: 'error',
+            duration: 3000,
+            isClosable: true
+          })
+        })
+    },
+    [toast]
+  )
 
   return (
     <Popup title="Criar paciente">

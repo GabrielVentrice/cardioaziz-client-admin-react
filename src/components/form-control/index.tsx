@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react'
 
 import {
-  Flex,
   FormControl as ChakraFormControl,
   FormLabel,
   FormHelperText

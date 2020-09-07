@@ -1,42 +1,31 @@
 import React from 'react'
-import { useTable } from 'react-table'
+import { useHistory } from 'react-router-dom'
 
-import { Table as CustomTable, Tr, Th, Tbody, Thead, Td, Link } from './styles'
+import { Table as CustomTable, Tr, Th, Tbody, Thead, Td } from './styles'
 
-interface IColumn {
-  Header: string
-  accessor: string
-}
+const Table: React.FC = ({ data, columns, isLoading, redirectLink }) => {
+  const history = useHistory()
 
-const Table: React.FC = ({ data, columns, isLoading, trClick }) => {
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow
-  } = useTable({ columns, data })
+  function redirectRow(id: string) {
+    history.push(`${redirectLink}/${id}`)
+  }
 
   return (
-    <CustomTable {...getTableProps()}>
+    <CustomTable isLoading={isLoading}>
       <Thead>
-        {headerGroups.map(headerGroup => (
-          <Tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map(column => (
-              <Th {...column.getHeaderProps()}>{column.render('Header')}</Th>
-            ))}
-          </Tr>
-        ))}
+        <Tr>
+          {columns.map(column => {
+            return <Th>{column}</Th>
+          })}
+        </Tr>
       </Thead>
 
-      <Tbody {...getTableBodyProps()} className={`${isLoading && 'fade-out'}`}>
-        {rows.map(row => {
-          prepareRow(row)
-
+      <Tbody>
+        {data.map(({ id, info }) => {
           return (
-            <Tr {...row.getRowProps()}>
-              {row.cells.map(cell => {
-                return <Td {...cell.getCellProps()}>{cell.render('Cell')}</Td>
+            <Tr onClick={() => redirectRow(id)}>
+              {info.map(cell => {
+                return <Td>{cell}</Td>
               })}
             </Tr>
           )

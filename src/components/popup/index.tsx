@@ -1,10 +1,8 @@
 import React, { ReactNode } from 'react'
 
-import { Flex, Heading, Button as ChakraButton } from '@chakra-ui/core'
+import { Flex, Heading } from '@chakra-ui/core'
 
 import { Container } from './styles'
-
-import Button from '../button'
 
 interface IPopup {
   title: string

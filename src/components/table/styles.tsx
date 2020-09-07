@@ -3,6 +3,11 @@ import { theme } from '@chakra-ui/core'
 
 export const Table = styled.table`
   width: 100%;
+  td,
+  th {
+    transition: all 0.2s;
+    color: ${({ isLoading }) => (isLoading ? 'transparent !important' : '')};
+  }
 `
 
 export const Thead = styled.thead``
@@ -90,6 +95,4 @@ export const Td = styled.td`
 
 export const Link = styled.a`
   background: red;
-  width: 100px;
-  height: 100px;
 `

@@ -16,7 +16,11 @@ const Routes: React.FC = () => {
     <Switch>
       <PrivateRoute path="/" exact component={Dashboard}></PrivateRoute>
 
-      <PrivateRoute path="/paciente" exact component={Patient}></PrivateRoute>
+      <PrivateRoute
+        path="/paciente/:id"
+        exact
+        component={Patient}
+      ></PrivateRoute>
 
       <AuthRoute path="/login" component={Login}></AuthRoute>
 

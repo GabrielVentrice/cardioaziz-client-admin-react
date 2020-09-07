@@ -2,10 +2,18 @@ import api from '../api'
 
 import { IPatientInput } from '../../components/patient-form'
 
-export const get = async (page: string) => {
+export const get = async (page: number) => {
   let params = {}
 
-  return await api.get('/paciente', { params })
+  params['page'] = page + 1
+
+  return await api.get('/pacientes', { params })
+}
+
+export const getId = async (id: string) => {
+  let params = {}
+
+  return await api.get(`/pacientes/${id}`, { params })
 }
 
 export const post = async ({
