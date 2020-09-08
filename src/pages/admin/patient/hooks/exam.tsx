@@ -6,12 +6,14 @@ import { Flex } from '@chakra-ui/core'
 import * as requests from '../../../../services/requests'
 import ExamCard from '../../../../components/exam-card'
 
-const Exam: React.FC = ({ id }) => {
+import { UploadingExams } from './upload'
+
+const Exam: React.FC = ({ patientId }) => {
   const [exams, setExams] = useState([])
 
   const getExams = useCallback(() => {
     requests.examResults
-      .getId(id)
+      .getId(patientId)
       .then(res => {
         console.log('Exames ==> ', res.data)
         setExams(res.data)
@@ -19,9 +21,13 @@ const Exam: React.FC = ({ id }) => {
       .catch(err => {
         console.log(err)
       })
-  }, [id])
+  }, [patientId])
 
   useLayoutEffect(() => {
+    getExams()
+  }, [getExams])
+
+  const reloadExams = useCallback(() => {
     getExams()
   }, [getExams])
 
@@ -29,14 +35,24 @@ const Exam: React.FC = ({ id }) => {
     <Flex flexDir="column">
       <Header>Exames</Header>
 
-      <Flex flexDir="column">
-        {exams.map(({ exam_id }) => {
-          const { nome_original, data_cad, _id } = exam_id
+      <Flex flexDir="column" width={['300px', '300px', '700px', '700px']}>
+        <UploadingExams patientId={patientId}></UploadingExams>
 
-          return (
-            <ExamCard name={nome_original} date={data_cad} id={_id}></ExamCard>
-          )
-        })}
+        <Flex flexDir="column" mt={4}>
+          {exams.map(({ _id, exam_id }) => {
+            const { nome_original, data_cad } = exam_id
+
+            return (
+              <ExamCard
+                name={nome_original}
+                date={data_cad}
+                id={exam_id._id}
+                reloadFunction={reloadExams}
+                relationId={_id}
+              ></ExamCard>
+            )
+          })}
+        </Flex>
       </Flex>
     </Flex>
   )

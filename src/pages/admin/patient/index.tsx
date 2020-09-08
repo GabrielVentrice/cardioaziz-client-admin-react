@@ -75,7 +75,7 @@ const Patient: React.FC = () => {
         <Flex width="100%" height="100%" paddingY={4}>
           <Profile patient={patient}></Profile>
 
-          <Exam id={id}></Exam>
+          <Exam patientId={id}></Exam>
         </Flex>
       </Flex>
     </DashboardStructure>

@@ -7,7 +7,12 @@ const DashboardStructure: React.FC = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
-    <Flex height="100vh" width="100vw" backgroundColor="gray.200">
+    <Flex
+      height="100vh"
+      width="100vw"
+      backgroundColor="gray.200"
+      overflowY="scroll"
+    >
       <Button onClick={onOpen}>s</Button>
       <SideMenu isOpen={isOpen} onClose={onClose}></SideMenu>
       {children}
