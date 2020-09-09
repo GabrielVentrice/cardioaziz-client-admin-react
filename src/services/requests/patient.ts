@@ -35,3 +35,19 @@ export const post = async ({
 
   return await api.post('/pacientes', body)
 }
+
+export const put = async (
+  { name, birthday, email, tel, cpf, rg }: IPatientInput,
+  id: string
+) => {
+  const body = {
+    nome: name,
+    nascimento: birthday,
+    email,
+    telelfone: tel,
+    cpf,
+    rg
+  }
+
+  return await api.put(`/pacientes/${id}`, body)
+}

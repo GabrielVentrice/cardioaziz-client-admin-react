@@ -1,6 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useToast } from '@chakra-ui/core'
+import moment from 'moment'
 
 import { Flex, Button as ChakraButton } from '@chakra-ui/core'
 
@@ -20,8 +21,21 @@ export interface IPatientInput {
   tel: string
 }
 
-const PatientForm: React.FC = ({ isOpen, onClose, toClose }) => {
-  const { register, handleSubmit, errors } = useForm<IPatientInput>()
+const PatientForm: React.FC = ({ isOpen, onClose, toClose, patient }) => {
+  const preValued = patient
+    ? {
+        defaultValues: {
+          name: patient.nome,
+          email: patient.email,
+          birthday: moment(patient.nascimento).format('DD/MM/YYYY'),
+          cpf: patient.cpf,
+          rg: patient.rg,
+          tel: patient.tel
+        }
+      }
+    : {}
+
+  const { register, handleSubmit, errors } = useForm<IPatientInput>(preValued)
   const toast = useToast()
 
   const onSubmit = React.useCallback(
@@ -59,10 +73,44 @@ const PatientForm: React.FC = ({ isOpen, onClose, toClose }) => {
     [toast]
   )
 
+  const onEditSubmit = React.useCallback(
+    (formData: IPatientInput) => {
+      requests.patient
+        .put(formData, patient._id)
+        .then(response => {
+          console.log('Resposta', response)
+
+          toast({
+            title: 'Sucesso',
+            description: 'Paciente atualizado',
+            status: 'success',
+            duration: 3000,
+            isClosable: true
+          })
+        })
+        .catch(({ response }) => {
+          let description: string = 'Algo deu errado'
+          console.log(response)
+          if (response.status === 409) {
+            description = 'Email já cadastrado'
+          }
+
+          toast({
+            title: 'Erro',
+            description,
+            status: 'error',
+            duration: 3000,
+            isClosable: true
+          })
+        })
+    },
+    [toast]
+  )
+
   return (
-    <Popup title="Criar paciente">
+    <Popup title={patient ? 'Editar Paciente' : 'Criar paciente'}>
       <Flex>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(patient ? onEditSubmit : onSubmit)}>
           <Flex flexDir="column">
             <Flex>
               <FormControl
@@ -163,7 +211,7 @@ const PatientForm: React.FC = ({ isOpen, onClose, toClose }) => {
               >
                 Cancelar
               </ChakraButton>
-              <Button type="submit"> Salvar</Button>
+              <Button type="submit">{patient ? 'Atualizar' : 'Salvar'}</Button>
             </Flex>
           </Flex>
         </form>

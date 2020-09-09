@@ -14,11 +14,12 @@ const ButtonMenu: React.FC<ButtonProps> = ({ icon, onClick, children }) => {
       leftIcon={icon}
       variant="link"
       padding={4}
-      fontSize="md"
+      fontSize="lg"
       fontWeight="400"
       _hover={{ color: 'red.900' }}
       alignItems="center"
       justifyContent="start"
+      color="gray.600"
     >
       {children}
     </ChackraButton>

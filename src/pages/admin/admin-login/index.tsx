@@ -111,10 +111,6 @@ const AdminLogin: React.FC = () => {
               Acessar
             </Button>
           </form>
-
-          <Text marginTop={4} fontSize="xs" color="gray.400">
-            Esqueci minha senha
-          </Text>
         </Flex>
       </Flex>
     </Grid>

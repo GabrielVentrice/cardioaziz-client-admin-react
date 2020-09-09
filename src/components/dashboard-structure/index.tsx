@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, useDisclosure, Button } from '@chakra-ui/core'
+import { Flex, useDisclosure, Button, Icon } from '@chakra-ui/core'
 
 import SideMenu from '../side-menu'
 
@@ -13,7 +13,9 @@ const DashboardStructure: React.FC = ({ children }) => {
       backgroundColor="gray.200"
       overflowY="scroll"
     >
-      <Button onClick={onOpen}>s</Button>
+      <Button onClick={onOpen}>
+        <Icon name="menu"></Icon>
+      </Button>
       <SideMenu isOpen={isOpen} onClose={onClose}></SideMenu>
       {children}
     </Flex>

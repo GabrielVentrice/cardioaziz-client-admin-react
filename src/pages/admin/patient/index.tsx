@@ -1,6 +1,13 @@
 import React, { useLayoutEffect, useState, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
-import { Flex, Heading } from '@chakra-ui/core'
+import {
+  Flex,
+  Heading,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  Icon
+} from '@chakra-ui/core'
 
 import DashboardStructure from '../../../components/dashboard-structure'
 
@@ -36,10 +43,26 @@ const Patient: React.FC = () => {
         height="100%"
         width="100%"
       >
-        <Flex gridArea="header">
+        <Flex gridArea="header" flexDir="column">
           <Heading size="lg" color="gray.800">
             Paciente
           </Heading>
+
+          <Breadcrumb
+            separator={<Icon color="gray.600" name="chevron-right" />}
+          >
+            <BreadcrumbItem>
+              <BreadcrumbLink color="gray.600" href="/">
+                Lista de pacientes
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+
+            <BreadcrumbItem isCurrentPage>
+              <BreadcrumbLink color="gray.600" href="#">
+                Editar paciente
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+          </Breadcrumb>
         </Flex>
 
         <Flex
@@ -48,33 +71,11 @@ const Patient: React.FC = () => {
           alignItems="center "
           justifyContent="flex-end"
           width="100%"
-        >
-          {/* <Button
-            onClick={() => setCreateIsOpen(true)}
-            boxShadow="4px 4px 8px rgba(5,7,10,0.09), -4px -4px 8px rgba(255,255,255,0.5)"
-            background="#E2E8F0"
-            fontSize="md"
-            color="gray.500"
-            fontWeight={500}
-            _hover={{
-              color: 'gray.600'
-            }}
-            _active={{
-              boxShadow:
-                'inset 2px 2px 4px rgba(5,7,10,0.2), -2px -2px 4px rgba(255,255,255,0.4)',
-              background: '#c8d3e3',
-              color: 'white',
-              border: 'none'
-            }}
-          >
-            <Icon name="userPlus" color="gray.500" mr={2} size={5}></Icon>{' '}
-            Adicionar exame
-          </Button> */}
-        </Flex>
+        ></Flex>
 
         <Flex width="100%" height="100%" paddingY={4}>
           <Profile patient={patient}></Profile>
-
+          <Flex width={8}></Flex>
           <Exam patientId={id}></Exam>
         </Flex>
       </Flex>

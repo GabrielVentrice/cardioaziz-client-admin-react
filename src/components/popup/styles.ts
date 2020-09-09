@@ -6,4 +6,6 @@ export const Container = styled.div`
   height: 100vh;
   width: 100vw;
   z-index: 100;
+  top: 0;
+  left: 0;
 `

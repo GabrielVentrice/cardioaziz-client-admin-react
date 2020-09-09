@@ -6,11 +6,15 @@ import MenuButton from '../button-menu'
 const AdminMenu = () => {
   return (
     <Flex direction="column">
-      <MenuButton icon="phone">Pacientes</MenuButton>
-
-      <MenuButton icon="plus-square">Médicos</MenuButton>
-
-      <MenuButton icon="question">Exames</MenuButton>
+      <a href="/">
+        <MenuButton icon="users">Pacientes</MenuButton>
+      </a>
+      <a href="/">
+        <MenuButton icon="heart">Médicos</MenuButton>
+      </a>
+      <a href="/">
+        <MenuButton icon="file-text">Exames</MenuButton>
+      </a>
     </Flex>
   )
 }
