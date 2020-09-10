@@ -9,10 +9,10 @@ const AdminMenu = () => {
       <a href="/">
         <MenuButton icon="users">Pacientes</MenuButton>
       </a>
-      <a href="/">
+      {/* <a href="/">
         <MenuButton icon="heart">Médicos</MenuButton>
-      </a>
-      <a href="/">
+      </a> */}
+      <a href="/exames">
         <MenuButton icon="file-text">Exames</MenuButton>
       </a>
     </Flex>

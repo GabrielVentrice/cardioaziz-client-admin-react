@@ -9,7 +9,8 @@ import {
   Text,
   Image,
   FormControl,
-  FormErrorMessage
+  FormErrorMessage,
+  Link
 } from '@chakra-ui/core'
 
 import { useAuth } from '../../hooks/AuthContext'
@@ -145,9 +146,14 @@ const Login: React.FC = () => {
             </Button>
           </form>
 
-          <Text marginTop={4} fontSize="xs" color="gray.400">
+          <Link
+            marginTop={4}
+            fontSize="xs"
+            color="gray.400"
+            href="/esqueci-senha"
+          >
             Esqueci minha senha
-          </Text>
+          </Link>
         </Flex>
       </Flex>
     </Grid>
