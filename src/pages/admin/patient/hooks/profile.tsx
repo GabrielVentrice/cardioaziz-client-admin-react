@@ -16,6 +16,7 @@ import {
   ButtonGroup
 } from '@chakra-ui/core'
 import moment from 'moment'
+import { useHistory } from 'react-router-dom'
 
 import { NameShortener } from '../../../../utils/format'
 
@@ -23,11 +24,30 @@ import { Label, Text, Header } from './styles'
 
 import PatientForm from '../../../../components/patient-form'
 
+import * as request from '../../../../services/requests'
+
 const Profile: React.FC = ({ patient }) => {
   const toast = useToast()
+  const history = useHistory()
   const [editisOpen, setEditisOpen] = useState(false)
 
-  function onClickRemove() {}
+  function onClickRemove() {
+    request.patient
+      .del(patient._id)
+      .then(res => {
+        toast({
+          description: 'Usuario removido',
+          status: 'success'
+        })
+        history.push('/')
+      })
+      .catch(err => {
+        toast({
+          description: 'Não foi possivel remover este usuario',
+          status: 'error'
+        })
+      })
+  }
 
   return (
     <>

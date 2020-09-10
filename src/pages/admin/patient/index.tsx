@@ -73,9 +73,11 @@ const Patient: React.FC = () => {
           width="100%"
         ></Flex>
 
-        <Flex width="100%" height="100%" paddingY={4}>
+        <Flex width="100%" height="100%" paddingY={4} flexWrap="wrap">
           <Profile patient={patient}></Profile>
+
           <Flex width={8}></Flex>
+
           <Exam patientId={id}></Exam>
         </Flex>
       </Flex>

@@ -7,7 +7,9 @@ export const getId = async (id: string) => {
 }
 
 export const download = async (id: string) => {
-  return await api.get(`/pacientes/exames/${id}`)
+  return await api.get(`/pacientes/exames/${id}`, {
+    responseType: 'arraybuffer'
+  })
 }
 
 export const upload = async (formData, patientId: string) => {

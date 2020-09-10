@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 import api from '../api'
 
 import { IPatientInput } from '../../components/patient-form'
@@ -8,6 +10,14 @@ export const get = async (page: number) => {
   params['page'] = page + 1
 
   return await api.get('/pacientes', { params })
+}
+
+export const getFilter = async (text: string, page: number) => {
+  let params = {}
+
+  params['page'] = page + 1
+
+  return await api.post('/pacientes/filtro', { text }, { params })
 }
 
 export const getId = async (id: string) => {
@@ -26,7 +36,7 @@ export const post = async ({
 }: IPatientInput) => {
   const body = {
     nome: name,
-    nascimento: birthday,
+    nascimento: moment(birthday, 'DD/MM/YYYY').format(),
     email,
     telelfone: tel,
     cpf,
@@ -42,7 +52,7 @@ export const put = async (
 ) => {
   const body = {
     nome: name,
-    nascimento: birthday,
+    nascimento: moment(birthday, 'DD/MM/YYYY').format(),
     email,
     telelfone: tel,
     cpf,
@@ -50,4 +60,8 @@ export const put = async (
   }
 
   return await api.put(`/pacientes/${id}`, body)
+}
+
+export const del = async (patientId: string) => {
+  return await api.delete(`/pacientes/${patientId}`)
 }

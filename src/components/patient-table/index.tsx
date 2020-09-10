@@ -10,7 +10,7 @@ import { Flex as ChakraFlex } from '@chakra-ui/core'
 
 import * as requests from '../../services/requests'
 
-const PatientTable: React.FC = () => {
+const PatientTable: React.FC = ({ searchText }) => {
   const [rows, setRows] = useState([])
 
   const [pagination, setPagination] = useState({
@@ -63,6 +63,31 @@ const PatientTable: React.FC = () => {
       .catch(err => {})
   }, [])
 
+  const getPatientsWithFilter = useCallback((text: string, page: number) => {
+    requests.patient
+      .getFilter(text, page)
+      .then(response => {
+        const { total, limit, page, pages, docs } = response.data
+
+        console.log(response)
+
+        setPagination({ total, limit, page, pages })
+
+        dataToColumns(docs)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }, [])
+
+  useLayoutEffect(() => {
+    if (searchText.length < 4) {
+      getPatients(0)
+    } else {
+      getPatientsWithFilter(searchText, 0)
+    }
+  }, [searchText])
+
   useLayoutEffect(() => {
     getPatients(0)
   }, [getPatients])
@@ -70,7 +95,11 @@ const PatientTable: React.FC = () => {
   const paginationClick = ({ selected }) => {
     setIsLoading(true)
 
-    getPatients(selected)
+    if (searchText.length < 4) {
+      getPatients(selected)
+    } else {
+      getPatientsWithFilter(searchText, selected)
+    }
 
     setPagination({ ...pagination, page: selected })
   }

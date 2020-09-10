@@ -8,6 +8,7 @@ import PatientForm from '../../../components/patient-form'
 
 const Dashboard: React.FC = () => {
   const [createIsOpen, setCreateIsOpen] = useState(false)
+  const [searchText, setSearchText] = useState('')
 
   return (
     <DashboardStructure>
@@ -34,6 +35,11 @@ const Dashboard: React.FC = () => {
             icon="search"
             placeholder="Pesquisar paciente..."
             type="search"
+            onChange={event => {
+              const { value } = event.target
+
+              setSearchText(value)
+            }}
           ></Input>
           <Button
             onClick={() => setCreateIsOpen(true)}
@@ -59,7 +65,7 @@ const Dashboard: React.FC = () => {
         </Flex>
 
         <Flex width="100%" height="100%">
-          <PatientTable></PatientTable>
+          <PatientTable searchText={searchText}></PatientTable>
         </Flex>
       </Flex>
       {createIsOpen && (

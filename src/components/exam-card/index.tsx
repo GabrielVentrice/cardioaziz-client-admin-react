@@ -35,7 +35,7 @@ const ExamCard: React.FC = ({ name, date, id, relationId, reloadFunction }) => {
     requests.examResults
       .download(id)
       .then(res => {
-        console.log('Exame Resposta => ', res.data)
+        console.log(res)
 
         const file = new Blob([res.data], { type: 'application/pdf' })
 
@@ -46,6 +46,8 @@ const ExamCard: React.FC = ({ name, date, id, relationId, reloadFunction }) => {
         setLoading(false)
       })
       .catch(err => {
+        console.log(err)
+
         toast({
           description: 'Erro ao realizar download do exame',
           status: 'error',

@@ -16,7 +16,7 @@ interface InputProps {
   size: IInput['size']
   rightElement?: HTMLProps<HTMLButtonElement>
   inputRef?: any
-  id: string
+  id?: string
 }
 
 const Input: React.FC<InputProps> = ({

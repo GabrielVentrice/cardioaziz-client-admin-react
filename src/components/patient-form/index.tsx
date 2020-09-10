@@ -2,6 +2,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useToast } from '@chakra-ui/core'
 import moment from 'moment'
+import { useHistory } from 'react-router'
 
 import { Flex, Button as ChakraButton } from '@chakra-ui/core'
 
@@ -11,6 +12,8 @@ import Input from '../input'
 import Button from '../button'
 
 import * as requests from '../../services/requests'
+
+import { normalizeDate } from '../../utils/mask'
 
 export interface IPatientInput {
   name: string
@@ -22,6 +25,8 @@ export interface IPatientInput {
 }
 
 const PatientForm: React.FC = ({ isOpen, onClose, toClose, patient }) => {
+  const history = useHistory()
+
   const preValued = patient
     ? {
         defaultValues: {
@@ -44,8 +49,6 @@ const PatientForm: React.FC = ({ isOpen, onClose, toClose, patient }) => {
         .post(formData)
 
         .then(response => {
-          console.log('Resposta', response)
-
           toast({
             title: 'Sucesso',
             description: 'Paciente criado',
@@ -53,6 +56,8 @@ const PatientForm: React.FC = ({ isOpen, onClose, toClose, patient }) => {
             duration: 3000,
             isClosable: true
           })
+
+          history.push(`/paciente/${response.data._id}`)
         })
         .catch(({ response }) => {
           let description: string = 'Algo deu errado'
@@ -78,8 +83,6 @@ const PatientForm: React.FC = ({ isOpen, onClose, toClose, patient }) => {
       requests.patient
         .put(formData, patient._id)
         .then(response => {
-          console.log('Resposta', response)
-
           toast({
             title: 'Sucesso',
             description: 'Paciente atualizado',
@@ -90,7 +93,6 @@ const PatientForm: React.FC = ({ isOpen, onClose, toClose, patient }) => {
         })
         .catch(({ response }) => {
           let description: string = 'Algo deu errado'
-          console.log(response)
           if (response.status === 409) {
             description = 'Email já cadastrado'
           }
@@ -143,6 +145,11 @@ const PatientForm: React.FC = ({ isOpen, onClose, toClose, patient }) => {
                   width={200}
                   aria-describedby="birthday-helper-text"
                   inputRef={register({ required: 'Campo necessario' })}
+                  onChange={event => {
+                    const { value } = event.target
+
+                    event.target.value = normalizeDate(value)
+                  }}
                 />
               </FormControl>
             </Flex>

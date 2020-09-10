@@ -64,8 +64,8 @@ const SideMenu: React.FC<MenuProps> = ({ isOpen, onClose }) => {
               width="100%"
               direction="column"
               justifyContent="space-between"
-              mt={10}
               height="90%"
+              mt={5}
             >
               <AdminMenu></AdminMenu>
 
