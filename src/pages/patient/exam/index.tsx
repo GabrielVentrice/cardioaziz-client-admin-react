@@ -1,5 +1,7 @@
 import React, { useLayoutEffect, useState, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
+import { useAuth } from '../../../hooks/AuthContext'
+
 import {
   Flex,
   Heading,
@@ -13,30 +15,25 @@ import DashboardStructure from '../../../components/dashboard-structure'
 
 import * as requests from '../../../services/requests'
 
-import ExamForm from './hooks/exam-form'
-import ExamHourForm from './hooks/exam-hour-form'
+import Exam from './hooks/exam'
 
-const Exam: React.FC = () => {
-  let { id } = useParams()
+const PatientExam: React.FC = () => {
+  const { user } = useAuth()
 
-  const [exam, setExam] = useState()
+  const [patient, setPatient] = useState({})
 
-  const getExam = useCallback(() => {
-    requests.exam
-      .get(id)
+  const getPatient = useCallback(() => {
+    requests.patient
+      .getId(user._id)
       .then(res => {
-        console.log(res.data)
-
-        setExam(res.data)
+        setPatient(res.data)
       })
-      .catch(err => {
-        console.log(err)
-      })
-  }, [id])
+      .catch(err => {})
+  }, [user._id])
 
   useLayoutEffect(() => {
-    getExam()
-  }, [getExam])
+    getPatient()
+  }, [getPatient])
 
   return (
     <DashboardStructure>
@@ -49,21 +46,15 @@ const Exam: React.FC = () => {
       >
         <Flex gridArea="header" flexDir="column">
           <Heading size="lg" color="gray.800">
-            Exame
+            Paciente
           </Heading>
 
           <Breadcrumb
             separator={<Icon color="gray.600" name="chevron-right" />}
           >
-            <BreadcrumbItem>
-              <BreadcrumbLink color="gray.600" href="/exames">
-                Lista de exames
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-
             <BreadcrumbItem isCurrentPage>
               <BreadcrumbLink color="gray.600" href="#">
-                Editar exame
+                Meus Exames
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
@@ -78,15 +69,11 @@ const Exam: React.FC = () => {
         ></Flex>
 
         <Flex width="100%" height="100%" paddingY={4} flexWrap="wrap">
-          <Flex width={640}>{exam && <ExamForm exam={exam}></ExamForm>}</Flex>
-
-          <Flex width={640} ml={8}>
-            <ExamHourForm></ExamHourForm>
-          </Flex>
+          <Exam patientId={user._id} isPatient></Exam>
         </Flex>
       </Flex>
     </DashboardStructure>
   )
 }
 
-export default Exam
+export default PatientExam

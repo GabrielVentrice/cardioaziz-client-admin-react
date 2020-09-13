@@ -20,10 +20,11 @@ const FormControl = ({
   children,
   isInvalid,
   type,
-  mr
+  mr,
+  ...rest
 }: IFormControlProps) => {
   return (
-    <ChakraFormControl my={2} mr={mr} isInvalid={!!isInvalid}>
+    <ChakraFormControl my={2} mr={mr} isInvalid={!!isInvalid} {...rest}>
       <FormLabel color="gray.800" htmlFor={type}>
         {label}
       </FormLabel>

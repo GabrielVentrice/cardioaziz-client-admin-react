@@ -17,8 +17,18 @@ import { CustomFlex } from './styles'
 import DeleteConfirmation from './hooks/delete-confirmation'
 
 import * as requests from '../../services/requests'
+import { resolve } from 'core-js/fn/promise'
 
-const ExamCard: React.FC = ({ name, date, id, relationId, reloadFunction }) => {
+import { role } from '../../utils/constants'
+
+const ExamCard: React.FC = ({
+  name,
+  date,
+  id,
+  relationId,
+  reloadFunction,
+  isPatient
+}) => {
   const [loading, setLoading] = useState(false)
   const toast = useToast()
 
@@ -92,6 +102,8 @@ const ExamCard: React.FC = ({ name, date, id, relationId, reloadFunction }) => {
       boxShadow="1px 2px 3px rgba(113,128,150,0.16)"
       width="100%"
       position="relative"
+      onClick={isPatient ? openFile : null}
+      cursor={isPatient ? 'pointer' : ''}
     >
       <Box pr={4}>
         <Image src={PDF} size="48px" alt="pdf-icon"></Image>
@@ -107,23 +119,24 @@ const ExamCard: React.FC = ({ name, date, id, relationId, reloadFunction }) => {
             {moment(date).format('DD/MM/YYYY')}
           </Text>
         </Flex>
-
-        <Flex alignItems="center">
-          <Button
-            id="crud-button"
-            fontSize="sm"
-            color="blue.400"
-            fontWeight="400"
-            variant="ghost"
-            onClick={openFile}
-            opacity={0}
-          >
-            ver exame
-          </Button>
-          <Box>
-            <DeleteConfirmation delFunction={deleteFile}></DeleteConfirmation>
-          </Box>
-        </Flex>
+        {!isPatient && (
+          <Flex alignItems="center">
+            <Button
+              id="crud-button"
+              fontSize="sm"
+              color="blue.400"
+              fontWeight="400"
+              variant="ghost"
+              onClick={openFile}
+              opacity={0}
+            >
+              ver exame
+            </Button>
+            <Box>
+              <DeleteConfirmation delFunction={deleteFile}></DeleteConfirmation>
+            </Box>
+          </Flex>
+        )}
       </Flex>
 
       {loading && (

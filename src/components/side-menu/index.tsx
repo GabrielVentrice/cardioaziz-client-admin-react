@@ -14,8 +14,9 @@ import { useAuth } from '../../hooks/AuthContext'
 
 import ButtonMenu from '../button-menu'
 import AdminMenu from './admin-menu'
+import PatientMenu from './patient-menu'
 
-import { role as constRole } from '../../utils/constants'
+import { role as constRole, role } from '../../utils/constants'
 
 interface MenuProps {
   isOpen: boolean
@@ -28,7 +29,7 @@ interface MenuProps {
 const SideMenu: React.FC<MenuProps> = ({ isOpen, onClose }) => {
   const { user, signOut } = useAuth()
 
-  console.log(user)
+  console.log('user', user)
 
   function getRoleName(role) {
     switch (role) {
@@ -50,8 +51,8 @@ const SideMenu: React.FC<MenuProps> = ({ isOpen, onClose }) => {
             <Flex flexDir="column" py={4} alignItems="center">
               <Avatar size="xl"></Avatar>
 
-              <Heading as="h6" size="md" mt={4}>
-                {user.username}
+              <Heading as="h6" size="md" mt={4} textAlign="center">
+                {user.nome}
               </Heading>
 
               <Text color="gray.400" fontSize="md" fontWeight="400" mt={1}>
@@ -67,7 +68,9 @@ const SideMenu: React.FC<MenuProps> = ({ isOpen, onClose }) => {
               height="90%"
               mt={5}
             >
-              <AdminMenu></AdminMenu>
+              {user.role === constRole.ADMIN && <AdminMenu></AdminMenu>}
+
+              {user.role === constRole.PATIENT && <PatientMenu></PatientMenu>}
 
               <ButtonMenu onClick={signOut} icon="logOut">
                 Logout

@@ -5,9 +5,9 @@ import ThemeContainer from './ThemeContainer'
 
 const AppProvider: React.FC = ({ children }) => {
   return (
-    <AuthProvider>
-      <ThemeContainer>{children}</ThemeContainer>
-    </AuthProvider>
+    <ThemeContainer>
+      <AuthProvider>{children}</AuthProvider>
+    </ThemeContainer>
   )
 }
 

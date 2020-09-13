@@ -1,5 +1,6 @@
 import React, { createContext, useCallback, useState, useContext } from 'react'
 import api from '../services/api'
+import { useToast } from '@chakra-ui/core'
 
 interface User {
   nome: string
@@ -29,6 +30,8 @@ interface IAuthContext {
 const AuthContext = createContext<IAuthContext>({} as IAuthContext)
 
 export const AuthProvider: React.FC = ({ children }) => {
+  const toast = useToast()
+
   const [data, setData] = useState<AuthState>(() => {
     const token = localStorage.getItem('CardioAziz:token')
     const user = localStorage.getItem('CardioAziz:user')
@@ -46,18 +49,19 @@ export const AuthProvider: React.FC = ({ children }) => {
 
       params['role'] = role
 
-      const response = await api.post(
-        '/authenticate',
-        { username: email, password },
-        { params }
-      )
+      api
+        .post('/authenticate', { username: email, password }, { params })
+        .then(res => {
+          const { token, user } = res.data
 
-      const { token, user } = response.data
+          localStorage.setItem('CardioAziz:token', token)
+          localStorage.setItem('CardioAziz:user', JSON.stringify(user))
 
-      localStorage.setItem('CardioAziz:token', token)
-      localStorage.setItem('CardioAziz:user', JSON.stringify(user))
-
-      setData({ token, user })
+          setData({ token, user })
+        })
+        .catch(err => {
+          toast({ description: 'Credenciais inválidas', status: 'error' })
+        })
     },
     []
   )
