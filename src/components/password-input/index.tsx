@@ -18,10 +18,17 @@ const PasswordInput: React.FC<PasswordProps> = ({ inputRef, ...rest }) => {
       size="lg"
       icon="lock"
       type={show ? 'text' : 'password'}
-      placeholder="Inserir Senha"
+      placeholder="Inserir senha"
       rightElement={
-        <Button h="95%" size="sm" onClick={handleClick}>
-          {show ? <Icon name="view-off"></Icon> : <Icon name="view"></Icon>}
+        <Button
+          h="95%"
+          size="sm"
+          onClick={handleClick}
+          background="none"
+          color="gray.600"
+          _hover={{ background: 'none', color: 'red.800' }}
+        >
+          {show ? <Icon name="eye-off"></Icon> : <Icon name="eye"></Icon>}
         </Button>
       }
       inputRef={inputRef}

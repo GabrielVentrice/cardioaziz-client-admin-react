@@ -1,6 +1,8 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 
+import LoadingTable from './hooks/loading'
+
 import { Table as CustomTable, Tr, Th, Tbody, Thead, Td } from './styles'
 
 const Table: React.FC = ({ data, columns, isLoading, redirectLink }) => {
@@ -10,7 +12,7 @@ const Table: React.FC = ({ data, columns, isLoading, redirectLink }) => {
     history.push(`${redirectLink}/${id}`)
   }
 
-  return (
+  return data.length ? (
     <CustomTable isLoading={isLoading}>
       <Thead>
         <Tr>
@@ -32,6 +34,8 @@ const Table: React.FC = ({ data, columns, isLoading, redirectLink }) => {
         })}
       </Tbody>
     </CustomTable>
+  ) : (
+    <LoadingTable></LoadingTable>
   )
 }
 

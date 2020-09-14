@@ -21,6 +21,7 @@ import Button from '../../components/button'
 
 import Logo from '../../assets/logo.png'
 import { role } from '../../utils/constants'
+import { useSortBy } from 'react-table'
 
 interface Inputs {
   email: string
@@ -32,8 +33,10 @@ const Login: React.FC = () => {
 
   const [loginOption, setLoginOption] = React.useState('patient')
 
+  const [loading, setLoading] = React.useState(false)
+
   const onSubmit = (data: Inputs) => {
-    signIn(data, role.PATIENT)
+    signIn(data, role.PATIENT, setLoading)
   }
 
   const { signIn } = useAuth()
@@ -72,7 +75,7 @@ const Login: React.FC = () => {
           alignItems="stretch"
           paddingX={12}
           paddingY={8}
-          boxShadow="0px 2px 3px rgba(0,0,0,0.14)"
+          boxShadow="1px 2px 6px rgba(113, 128, 150, 0.16);"
           textAlign="center"
         >
           <Heading as="h4" size="md" marginBottom={12} color="gray.700">
@@ -114,10 +117,10 @@ const Login: React.FC = () => {
               <Input
                 name="email"
                 size="lg"
-                icon="email"
+                icon="mail"
                 placeholder="Inserir Email"
                 type="email"
-                inputRef={register({ required: true })}
+                inputRef={register({ required: 'Campo necessário' })}
               ></Input>
 
               <FormErrorMessage>
@@ -128,7 +131,7 @@ const Login: React.FC = () => {
             <FormControl isInvalid={!!errors.password}>
               <PasswordInput
                 name="password"
-                inputRef={register({ required: true })}
+                inputRef={register({ required: 'Campo necessário' })}
               ></PasswordInput>
 
               <FormErrorMessage>
@@ -138,7 +141,7 @@ const Login: React.FC = () => {
 
             <Button
               marginTop={4}
-              isLoading={formState.isSubmitting}
+              isLoading={loading}
               type="submit"
               width="100%"
             >
@@ -147,8 +150,8 @@ const Login: React.FC = () => {
           </form>
 
           <Link
-            marginTop={4}
-            fontSize="xs"
+            marginTop={8}
+            fontSize="sm"
             color="gray.400"
             href="/esqueci-senha"
           >

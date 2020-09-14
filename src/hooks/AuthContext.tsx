@@ -23,7 +23,11 @@ interface SignInCredential {
 interface IAuthContext {
   user: User
   token: string
-  signIn({ email, password }: SignInCredential, role: string): void
+  signIn(
+    { email, password }: SignInCredential,
+    role: string,
+    setLoading
+  ): boolean
   signOut(): void
 }
 
@@ -44,7 +48,9 @@ export const AuthProvider: React.FC = ({ children }) => {
   })
 
   const signIn = useCallback(
-    async ({ email, password }: SignInCredential, role: string) => {
+    ({ email, password }: SignInCredential, role: string, setLoading) => {
+      setLoading(true)
+
       let params: IParams = { role: '' }
 
       params['role'] = role
@@ -58,9 +64,13 @@ export const AuthProvider: React.FC = ({ children }) => {
           localStorage.setItem('CardioAziz:user', JSON.stringify(user))
 
           setData({ token, user })
+
+          setLoading(false)
         })
         .catch(err => {
           toast({ description: 'Credenciais inválidas', status: 'error' })
+
+          setLoading(false)
         })
     },
     []

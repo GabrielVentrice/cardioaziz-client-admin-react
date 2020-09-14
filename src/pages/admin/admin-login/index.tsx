@@ -28,8 +28,10 @@ interface Inputs {
 const AdminLogin: React.FC = () => {
   const { register, handleSubmit, errors, formState } = useForm<Inputs>()
 
+  const [loading, setLoading] = React.useState(false)
+
   const onSubmit = (data: Inputs) => {
-    signIn(data, role.ADMIN)
+    signIn(data, role.ADMIN, setLoading)
   }
 
   const { signIn } = useAuth()
@@ -68,7 +70,7 @@ const AdminLogin: React.FC = () => {
           alignItems="stretch"
           paddingX={12}
           paddingY={8}
-          boxShadow="0px 2px 3px rgba(0,0,0,0.14)"
+          boxShadow="1px 2px 6px rgba(113, 128, 150, 0.16);"
           textAlign="center"
         >
           <Heading as="h4" size="md" marginBottom={12} color="gray.700">
@@ -80,8 +82,8 @@ const AdminLogin: React.FC = () => {
               <Input
                 name="email"
                 size="lg"
-                icon="email"
-                placeholder="Inserir Email"
+                icon="mail"
+                placeholder="Inserir login"
                 type="text"
                 inputRef={register({ required: true })}
               ></Input>
@@ -104,7 +106,7 @@ const AdminLogin: React.FC = () => {
 
             <Button
               marginTop={4}
-              isLoading={formState.isSubmitting}
+              isLoading={loading}
               type="submit"
               width="100%"
             >

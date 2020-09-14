@@ -60,8 +60,8 @@ const SendEmail: React.FC = ({ setStepState }) => {
           <Input
             name="email"
             size="lg"
-            icon="email"
-            placeholder="Inserir Email"
+            icon="mail"
+            placeholder="Inserir email"
             type="email"
             inputRef={register({ required: 'Campo Necessario' })}
           ></Input>
