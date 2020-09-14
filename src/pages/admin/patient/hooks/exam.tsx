@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useState, useCallback } from 'react'
 
 import { Header } from './styles'
-import { Flex } from '@chakra-ui/core'
+import { Flex, Skeleton } from '@chakra-ui/core'
 
 import * as requests from '../../../../services/requests'
 import ExamCard from '../../../../components/exam-card'
@@ -39,19 +39,26 @@ const Exam: React.FC = ({ patientId }) => {
         <UploadingExams patientId={patientId}></UploadingExams>
 
         <Flex flexDir="column" mt={4}>
-          {exams.map(({ _id, exam_id }) => {
-            const { nome_original, data_cad } = exam_id
+          {!!exams.length ? (
+            exams.map(({ _id, exam_id }) => {
+              const { nome_original, data_cad } = exam_id
 
-            return (
-              <ExamCard
-                name={nome_original}
-                date={data_cad}
-                id={exam_id._id}
-                reloadFunction={reloadExams}
-                relationId={_id}
-              ></ExamCard>
-            )
-          })}
+              return (
+                <ExamCard
+                  name={nome_original}
+                  date={data_cad}
+                  id={exam_id._id}
+                  reloadFunction={reloadExams}
+                  relationId={_id}
+                ></ExamCard>
+              )
+            })
+          ) : (
+            <>
+              <Skeleton height="72px" mb={4}></Skeleton>
+              <Skeleton height="72px" mb={4}></Skeleton>
+            </>
+          )}
         </Flex>
       </Flex>
     </Flex>

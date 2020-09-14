@@ -5,12 +5,15 @@ import { useAuth } from './AuthContext'
 const PrivateRoute = ({ component: Component, roles, ...rest }) => {
   const { user } = useAuth()
 
-  return (
-    <Route
-      {...rest}
-      render={props => (user ? <Component {...props} /> : <Redirect to="/" />)}
-    />
-  )
+  if (!user) {
+    return <Route render={props => <Redirect to="/" />} />
+  }
+
+  if (roles && roles.indexOf(user.role) === -1) {
+    return <Route render={props => <Redirect to="/" />} />
+  }
+
+  return <Route {...rest} render={props => <Component {...props} />} />
 }
 
 export default PrivateRoute

@@ -30,7 +30,7 @@ const Input: React.FC<InputProps> = ({
   width,
   ...rest
 }) => {
-  const [iconColor, setIconColor] = React.useState('gray.400')
+  const [iconColor, setIconColor] = React.useState('gray.500')
 
   return (
     <InputGroup marginY={2} size={size}>
@@ -42,8 +42,8 @@ const Input: React.FC<InputProps> = ({
         {...rest}
         type={type}
         placeholder={placeholder}
-        backgroundColor="white"
-        _placeholder={{ color: 'gray.400', fontSize: 'md' }}
+        backgroundColor="gray.100"
+        _placeholder={{ color: 'gray.500', fontSize: 'md' }}
         focusBorderColor="red.900"
         onFocus={() => setIconColor('red.900')}
         onBlur={() => setIconColor('gray.400')}
