@@ -7,7 +7,7 @@ const api = axios.create({
     'Content-Type': 'application/json; charset=utf-8',
     'Access-Control-Allow-Origin': '*'
   },
-  baseURL: 'http://api.cardioaziz.com.br/api'
+  baseURL: 'https://api.cardioaziz.com.br/api'
 })
 
 api.interceptors.request.use(config => {
