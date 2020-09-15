@@ -81,7 +81,7 @@ const Exam: React.FC = () => {
           <Flex width={640}>{exam && <ExamForm exam={exam}></ExamForm>}</Flex>
 
           <Flex width={640} ml={8}>
-            <ExamHourForm></ExamHourForm>
+            {exam && <ExamHourForm examId={id}></ExamHourForm>}
           </Flex>
         </Flex>
       </Flex>

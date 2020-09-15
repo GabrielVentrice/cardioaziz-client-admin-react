@@ -64,7 +64,7 @@ const ExamTable: React.FC = ({ searchText }) => {
       <Table
         data={rows}
         columns={columns}
-        redirectLink={'/exame'}
+        redirectLink={'/exames'}
         isLoading={isLoading}
       ></Table>
     </Flex>

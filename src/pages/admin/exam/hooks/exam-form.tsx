@@ -32,7 +32,7 @@ const ExamForm: React.FC = ({ exam }: ExamFormProps) => {
 
   const { fields, append, remove, prepend } = useFieldArray({
     control,
-    name: 'hour'
+    name: 'preparation'
   })
 
   return (

@@ -28,6 +28,7 @@
     "react-dropzone": "^11.0.3",
     "react-hook-form": "^6.7.0",
     "react-paginate": "^6.3.2",
+    "react-query": "^2.19.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-table": "^7.5.0",

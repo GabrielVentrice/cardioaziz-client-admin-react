@@ -1,16 +1,55 @@
-import React, { useCallback } from 'react'
-import { Button, Divider, Flex, Heading, Icon, Select } from '@chakra-ui/core'
+import React, { useCallback, useEffect, useLayoutEffect } from 'react'
 import { useForm, useFieldArray } from 'react-hook-form'
+import { useQuery } from 'react-query'
 
 import Input from '../../../../components/input'
 import FormControl from '../../../../components/form-control'
 
-import { normalizeHour } from '../../../../utils/mask'
+import * as request from '../../../../services/requests'
 
-const ExamHourForm: React.FC = () => {
-  const { register, handleSubmit, errors, control } = useForm()
+import {
+  Button,
+  Divider,
+  Flex,
+  Heading,
+  Icon,
+  Select,
+  useToast
+} from '@chakra-ui/core'
+
+const ExamHourForm: React.FC = ({ examId }) => {
+  const { register, handleSubmit, errors, control, reset } = useForm()
 
   const { fields, append, remove } = useFieldArray({ control, name: 'hour' })
+
+  const toast = useToast()
+
+  const hourArray = async () => {
+    return new Promise(resolve => {
+      resolve(
+        request.examHour
+          .get(examId)
+          .then(res => {
+            const hourArray = res.data.map(({ inicio, fim, semana }) => {
+              return { start: inicio, end: fim, weekDay: semana }
+            })
+
+            return hourArray
+          })
+          .catch(err => {})
+      )
+    })
+  }
+
+  useQuery('data', hourArray, {
+    refetchOnWindowFocus: false,
+    onSuccess: data => {
+      // from memor the problem: this reset is belong to the previous hook instance
+      reset({
+        hour: data
+      })
+    }
+  })
 
   const onSubmit = useCallback(data => {
     console.log(data)
@@ -94,7 +133,9 @@ const ExamHourForm: React.FC = () => {
           Adicionar
         </Button>
 
-        <Button type="submit">Salvar</Button>
+        <Button type="submit" onClick={() => onClick()}>
+          Salvar
+        </Button>
       </form>
     </Flex>
   )

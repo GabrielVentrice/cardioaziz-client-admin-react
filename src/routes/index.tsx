@@ -38,7 +38,7 @@ const Routes: React.FC = () => {
       ></PrivateRoute>
 
       <PrivateRoute
-        path="/exame/:id"
+        path="/exames/:id"
         exact
         component={Exam}
         roles={[role.ADMIN]}

@@ -16,11 +16,11 @@ const AdminMenu = () => {
       {/* <a href="/">
         <MenuButton icon="heart">Médicos</MenuButton>
       </a> */}
-      {/* <a href="/exames">
+      <a href="/exames">
         <MenuButton icon="file-text" isActive={url.indexOf('/exames') !== -1}>
           Exames
         </MenuButton>
-      </a> */}
+      </a>
     </Flex>
   )
 }
