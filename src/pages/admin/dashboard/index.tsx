@@ -35,6 +35,7 @@ const Dashboard: React.FC = () => {
             icon="search"
             placeholder="Pesquisar paciente..."
             type="search"
+            borderColor="gray.400"
             onChange={event => {
               const { value } = event.target
 

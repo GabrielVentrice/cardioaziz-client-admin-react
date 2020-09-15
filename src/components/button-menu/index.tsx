@@ -7,7 +7,13 @@ interface ButtonProps {
   onClick?: (event: React.MouseEvent<any, MouseEvent>) => void
 }
 
-const ButtonMenu: React.FC<ButtonProps> = ({ icon, onClick, children }) => {
+const ButtonMenu: React.FC<ButtonProps> = ({
+  icon,
+  onClick,
+  children,
+  isActive,
+  onlyIcon
+}) => {
   return (
     <ChackraButton
       onClick={onClick}
@@ -19,9 +25,9 @@ const ButtonMenu: React.FC<ButtonProps> = ({ icon, onClick, children }) => {
       _hover={{ color: 'red.900' }}
       alignItems="center"
       justifyContent="start"
-      color="gray.600"
+      color={isActive ? 'red.500' : 'gray.600'}
     >
-      {children}
+      {!onlyIcon && children}
     </ChackraButton>
   )
 }

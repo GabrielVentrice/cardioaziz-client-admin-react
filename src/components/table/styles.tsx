@@ -38,13 +38,6 @@ export const Tbody = styled.tbody`
     }
   }
 
-  &:hover {
-    background: #9c302e;
-    td {
-      color: ${theme.colors.gray[400]};
-    }
-  }
-
   tr {
     transition: all 0.2s ease-out;
     background: white;
@@ -71,12 +64,10 @@ export const Tbody = styled.tbody`
     }
 
     &:hover {
-      transform: translate(16px);
-      box-shadow: -3px 0px 5px rgba(156, 48, 46, 0.22);
-
       td {
+        transform: translate(16px);
         cursor: pointer;
-        color: ${theme.colors.gray[800]} !important;
+        color: #9c302e !important;
       }
     }
   }

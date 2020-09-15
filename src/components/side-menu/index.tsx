@@ -51,11 +51,18 @@ const SideMenu: React.FC<MenuProps> = ({ isOpen, onClose }) => {
             <Flex flexDir="column" py={4} alignItems="center">
               <Avatar size="xl"></Avatar>
 
-              <Heading as="h6" size="md" mt={4} textAlign="center">
+              <Heading
+                as="h6"
+                size="sm"
+                mt={4}
+                textAlign="center"
+                textTransform="capitalize"
+                color="gray.700"
+              >
                 {user.nome}
               </Heading>
 
-              <Text color="gray.400" fontSize="md" fontWeight="400" mt={1}>
+              <Text color="gray.300" fontSize="md" fontWeight="400" mt={1}>
                 {getRoleName(user.role)}
               </Text>
             </Flex>
@@ -80,17 +87,6 @@ const SideMenu: React.FC<MenuProps> = ({ isOpen, onClose }) => {
         </DrawerContent>
       </Drawer>
     </>
-    /* </>
-    <Flex
-      width="192px"
-      direction="column"
-      alignItems="center"
-      textAlign="center"
-    >
-      
-
-      
-    </Flex> */
   )
 }
 
