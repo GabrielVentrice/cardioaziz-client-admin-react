@@ -26,14 +26,25 @@ export const put = async (
   name: string,
   preparation: string[],
   observation: string,
-  activation: boolean
+  activated: boolean,
+  examId
 ) => {
-  return await api.put(`/new-exams`, {
-    nome: name,
-    preparacao: preparation,
-    observacao: observation,
-    ativado: activation
-  })
+  let params = {}
+
+  if (examId) {
+    params['id'] = examId
+  }
+
+  return await api.put(
+    `/new-exams`,
+    {
+      nome: name,
+      preparacao: preparation,
+      observacao: observation,
+      ativado: activated
+    },
+    { params }
+  )
 }
 
 export const remove = async (id: string) => {

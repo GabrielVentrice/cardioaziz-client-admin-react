@@ -78,10 +78,21 @@ const Exam: React.FC = () => {
         ></Flex>
 
         <Flex width="100%" height="100%" paddingY={4} flexWrap="wrap">
-          <Flex width={640}>{exam && <ExamForm exam={exam}></ExamForm>}</Flex>
+          <Flex width={640}>
+            <Flex
+              flexDir="column"
+              boxShadow="2px 4px 6px rgba(113, 128, 150, 0.16)"
+              padding={4}
+              background="white"
+              borderRadius="md"
+              width="100%"
+            >
+              {exam && <ExamForm exam={exam}></ExamForm>}
+            </Flex>
+          </Flex>
 
           <Flex width={640} ml={8}>
-            {exam && <ExamHourForm examId={id}></ExamHourForm>}
+            <ExamHourForm examId={id}></ExamHourForm>
           </Flex>
         </Flex>
       </Flex>

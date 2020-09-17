@@ -33,7 +33,7 @@ const Exam: React.FC = ({ patientId }) => {
 
   return (
     <Flex flexDir="column">
-      <Header>Exames</Header>
+      <Header as="h2">Exames</Header>
 
       <Flex flexDir="column" width={['300px', '300px', '700px', '700px']}>
         <UploadingExams patientId={patientId}></UploadingExams>

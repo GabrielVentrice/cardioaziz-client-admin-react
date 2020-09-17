@@ -52,7 +52,7 @@ const Profile: React.FC = ({ patient }) => {
   return (
     <>
       <Flex flexDirection="column" width={['200px', '200px', '280px', '280px']}>
-        <Header>Perfil</Header>
+        <Header as="h2">Perfil</Header>
 
         <Flex flexDirection="column" alignItems="center" mb={4}>
           <Flex width="100%" justifyContent="flex-start">
