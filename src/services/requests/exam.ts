@@ -10,6 +10,14 @@ export const get = async (id?: string) => {
   return await api.get('/new-exams', { params })
 }
 
+export const getPaginate = async (page: number) => {
+  let params = {}
+
+  params['page'] = page + 1
+
+  return await api.get('/new-exams/paginate', { params })
+}
+
 export const post = async (
   name: string,
   preparation: string[],

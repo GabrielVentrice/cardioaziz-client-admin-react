@@ -2,14 +2,23 @@ import React, { useLayoutEffect, useState, useCallback } from 'react'
 import Table from '../../../../components/table'
 import moment from 'moment'
 import { useHistory } from 'react-router-dom'
+import ReactPaginate from 'react-paginate'
+
+import * as requests from '../../../../services/requests'
 
 import { Flex } from './styles'
 
-import * as requests from '../../../../services/requests'
-import { Icon } from '@chakra-ui/core'
+import { Icon, Flex as ChakraFlex } from '@chakra-ui/core'
 
 const ExamTable: React.FC = ({ searchText }) => {
   const [rows, setRows] = useState([])
+
+  const [pagination, setPagination] = useState({
+    total: 0,
+    limit: 0,
+    page: 0,
+    pages: 0
+  })
 
   const history = useHistory()
 
@@ -42,22 +51,32 @@ const ExamTable: React.FC = ({ searchText }) => {
     setIsLoading(false)
   }
 
-  const getExams = useCallback(() => {
+  const getExams = useCallback((page: number) => {
     requests.exam
-      .get()
+      .getPaginate(page)
       .then(response => {
-        console.log('Exam ', response.data)
+        const { total, limit, page, pages, docs } = response.data
 
-        dataToColumns(response.data)
+        setPagination({ total, limit, page, pages })
+
+        dataToColumns(docs)
       })
-      .catch(err => {
-        console.log('Exam ', err)
+      .catch(({ response }) => {
+        console.log('Exam ', response)
       })
   }, [])
 
   useLayoutEffect(() => {
-    getExams()
+    getExams(0)
   }, [getExams])
+
+  const paginationClick = ({ selected }) => {
+    setIsLoading(true)
+
+    getExams(selected)
+
+    setPagination({ ...pagination, page: selected })
+  }
 
   return (
     <Flex flexDir="column" width="100%">
@@ -67,6 +86,22 @@ const ExamTable: React.FC = ({ searchText }) => {
         redirectLink={'/exames'}
         isLoading={isLoading}
       ></Table>
+
+      <ChakraFlex mt={4} justifyContent="flex-end">
+        <ReactPaginate
+          previousLabel={'<'}
+          nextLabel={'>'}
+          breakLabel={'.'}
+          breakClassName={'break-me'}
+          pageCount={pagination.pages}
+          marginPagesDisplayed={0}
+          pageRangeDisplayed={2}
+          onPageChange={paginationClick}
+          containerClassName={'pagination'}
+          subContainerClassName={'pages pagination'}
+          activeClassName={'active'}
+        />
+      </ChakraFlex>
     </Flex>
   )
 }

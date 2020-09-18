@@ -1,5 +1,6 @@
 import React from 'react'
 import { useForm, useFieldArray } from 'react-hook-form'
+import { useHistory } from 'react-router-dom'
 
 import Input from '../../../../components/input'
 import FormControl from '../../../../components/form-control'
@@ -10,17 +11,25 @@ import * as request from '../../../../services/requests'
 import { Form } from './styles'
 
 import {
-  Divider,
   Flex,
   Heading,
   Icon,
   Textarea,
   Checkbox,
-  useToast,
-  Button as ChakraButton
+  Button as ChakraButton,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverBody,
+  PopoverFooter,
+  ButtonGroup,
+  Divider,
+  useToast
 } from '@chakra-ui/core'
 
 interface IExam {
+  _id: string
   ativado: boolean
   nome: string
   observacao: string
@@ -33,6 +42,7 @@ interface ExamFormProps {
 
 const ExamForm: React.FC = ({ exam }: ExamFormProps) => {
   const toast = useToast()
+  const history = useHistory()
 
   const preparationArray = exam.preparacao.map(field => {
     return { step: field }
@@ -51,6 +61,24 @@ const ExamForm: React.FC = ({ exam }: ExamFormProps) => {
     control,
     name: 'preparation'
   })
+
+  function onClickRemove() {
+    request.exam
+      .remove(exam._id)
+      .then(res => {
+        toast({
+          description: 'Exame removido',
+          status: 'success'
+        })
+        history.push('/exames')
+      })
+      .catch(err => {
+        toast({
+          description: 'Não foi possivel remover este exame',
+          status: 'error'
+        })
+      })
+  }
 
   const onSubmit = ({ activated, name, observation, preparation }) => {
     let arrayPreparation = []
@@ -189,7 +217,37 @@ const ExamForm: React.FC = ({ exam }: ExamFormProps) => {
             </FormControl>
           </Flex>
         </Flex>
-        <Flex justifyContent="flex-end">
+        <Flex justifyContent="space-between">
+          <Popover placement="right">
+            <PopoverTrigger>
+              <ChakraButton
+                fontSize="sm"
+                fontWeight="400"
+                backgroundColor="red.300"
+                color="white"
+                _hover={{ backgroundColor: 'red.500' }}
+              >
+                Remover
+              </ChakraButton>
+            </PopoverTrigger>
+            <PopoverContent zIndex={4} position="absolute" marginLeft="100px">
+              <PopoverArrow />
+              <PopoverBody>Remover exame</PopoverBody>
+              <PopoverFooter d="flex" justifyContent="flex-end">
+                <ButtonGroup size="sm">
+                  <Button
+                    variantColor="red"
+                    onClick={() => {
+                      onClickRemove()
+                    }}
+                  >
+                    confirmar
+                  </Button>
+                </ButtonGroup>
+              </PopoverFooter>
+            </PopoverContent>
+          </Popover>
+
           <Button type="submit">Salvar exame</Button>
         </Flex>
       </Flex>
